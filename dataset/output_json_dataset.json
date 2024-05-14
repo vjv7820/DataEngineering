@@ -1,0 +1,20 @@
+{
+	"name": "output_json_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "input_source_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "user-profiles/output",
+				"fileSystem": "azuredf"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

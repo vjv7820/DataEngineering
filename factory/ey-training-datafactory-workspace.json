@@ -1,0 +1,9 @@
+{
+	"name": "ey-training-datafactory-workspace",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "b53e8a10-bd35-418e-89af-99465d79bd32",
+		"tenantId": "5b973f99-77df-4beb-b27d-aa0c70b8482c"
+	}
+}
