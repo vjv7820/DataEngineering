@@ -1,0 +1,49 @@
+{
+	"name": "Get Metadata for Files",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get metadata for File",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "users_dataset",
+						"type": "DatasetReference",
+						"parameters": {
+							"folder_path": "testdirectory"
+						}
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			}
+		],
+		"variables": {
+			"length": {
+				"type": "Integer",
+				"defaultValue": 10
+			}
+		},
+		"folder": {
+			"name": "Data Movement Activities/Get Metadata"
+		},
+		"annotations": []
+	}
+}

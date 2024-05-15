@@ -17,6 +17,19 @@
 				"typeProperties": {
 					"source": {
 						"type": "DelimitedTextSource",
+						"additionalColumns": [
+							{
+								"name": "filepath",
+								"value": "$$FILEPATH"
+							},
+							{
+								"name": "timestamp",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
+							}
+						],
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"fileListPath": "azuredf/filenames.txt",
@@ -28,8 +41,15 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"id"
+							]
+						},
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
 					"translator": {
@@ -43,8 +63,8 @@
 								},
 								"sink": {
 									"name": "id",
-									"type": "Int64",
-									"physicalType": "bigint"
+									"type": "String",
+									"physicalType": "nvarchar"
 								}
 							},
 							{
@@ -56,7 +76,7 @@
 								"sink": {
 									"name": "name",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "nvarchar"
 								}
 							},
 							{
@@ -66,9 +86,9 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "dob",
+									"name": "dateofbirth",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "nvarchar"
 								}
 							},
 							{
@@ -80,7 +100,7 @@
 								"sink": {
 									"name": "email",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "nvarchar"
 								}
 							},
 							{
@@ -92,7 +112,7 @@
 								"sink": {
 									"name": "gender",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "nvarchar"
 								}
 							},
 							{
@@ -104,7 +124,7 @@
 								"sink": {
 									"name": "country",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "nvarchar"
 								}
 							},
 							{
@@ -116,7 +136,7 @@
 								"sink": {
 									"name": "region",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "nvarchar"
 								}
 							},
 							{
@@ -128,7 +148,7 @@
 								"sink": {
 									"name": "city",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "nvarchar"
 								}
 							},
 							{
@@ -139,8 +159,8 @@
 								},
 								"sink": {
 									"name": "asset",
-									"type": "Int64",
-									"physicalType": "bigint"
+									"type": "String",
+									"physicalType": "nvarchar"
 								}
 							},
 							{
@@ -152,7 +172,7 @@
 								"sink": {
 									"name": "marital_status",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "nvarchar"
 								}
 							}
 						],
@@ -187,6 +207,12 @@
 			"folder_path": {
 				"type": "string",
 				"defaultValue": "abc"
+			}
+		},
+		"variables": {
+			"length": {
+				"type": "Integer",
+				"defaultValue": 10
 			}
 		},
 		"folder": {
