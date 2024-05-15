@@ -53,7 +53,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "users"
+			"table": "user_info"
 		}
 	}
 }
