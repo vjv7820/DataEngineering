@@ -1,0 +1,43 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Area Calculation",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "area",
+					"value": {
+						"value": "@string(mul(pipeline().parameters.pi, mul(float(variables('radius')), float(variables('radius')))))",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"pi": {
+				"type": "float",
+				"defaultValue": 3.14
+			}
+		},
+		"variables": {
+			"radius": {
+				"type": "String",
+				"defaultValue": "1.4"
+			},
+			"area": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Data Movement Activities/Set Variable"
+		},
+		"annotations": []
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"name": "key_vault_adls_connection",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://jayaeystgacc.dfs.core.windows.net",
+			"accountKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "key_vault_ls",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "storage-account-secret-value",
+				"secretVersion": "3db8be7261c441ecb86f6e5af073a5bf"
+			}
+		}
+	}
+}
