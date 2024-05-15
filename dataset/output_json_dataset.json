@@ -5,12 +5,21 @@
 			"referenceName": "input_source_ls",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"folder_path": {
+				"type": "string",
+				"defaultValue": "abc"
+			}
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "user-profiles/output",
+				"folderPath": {
+					"value": "@dataset().folder_path",
+					"type": "Expression"
+				},
 				"fileSystem": "azuredf"
 			}
 		},

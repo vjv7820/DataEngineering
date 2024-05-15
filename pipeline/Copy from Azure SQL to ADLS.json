@@ -1,9 +1,9 @@
 {
-	"name": "Copy Specific File",
+	"name": "Copy from Azure SQL to ADLS",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy specific File",
+				"name": "Copy from Azure SQL to ADLS",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -16,58 +16,56 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"fileListPath": "azuredf/filenames.txt",
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
-						"type": "JsonSink",
+						"type": "DelimitedTextSink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings",
 							"copyBehavior": "PreserveHierarchy"
 						},
 						"formatSettings": {
-							"type": "JsonWriteSettings"
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
 						}
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
 				},
 				"inputs": [
+					{
+						"referenceName": "users_sql_table",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
 					{
 						"referenceName": "users_dataset",
 						"type": "DatasetReference",
 						"parameters": {
 							"folder_path": {
-								"value": "@pipeline().parameters.folder_path",
+								"value": "@pipeline().parameters.folderpath",
 								"type": "Expression"
 							}
 						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "output_json_dataset",
-						"type": "DatasetReference"
 					}
 				]
 			}
 		],
 		"parameters": {
-			"folder_path": {
+			"folderpath": {
 				"type": "string",
 				"defaultValue": "user-profiles/raw"
-			}
-		},
-		"variables": {
-			"length": {
-				"type": "Integer",
-				"defaultValue": 10
 			}
 		},
 		"folder": {
