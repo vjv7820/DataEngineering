@@ -140,7 +140,7 @@
 				"typeProperties": {
 					"variableName": "details",
 					"value": {
-						"value": "@activity('Get Metadata').output",
+						"value": "@string(activity('Get Metadata').output)",
 						"type": "Expression"
 					}
 				}

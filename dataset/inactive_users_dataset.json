@@ -1,0 +1,22 @@
+{
+	"name": "inactive_users_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azure_sql_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "inactive_users"
+		}
+	}
+}
