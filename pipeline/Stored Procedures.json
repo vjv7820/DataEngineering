@@ -1,5 +1,5 @@
 {
-	"name": "Data Transformation Pipeline",
+	"name": "Stored Procedures",
 	"properties": {
 		"activities": [
 			{
@@ -80,7 +80,7 @@
 			}
 		],
 		"folder": {
-			"name": "Data Transformation Activities"
+			"name": "Data Movement Activities/Stored Procedures"
 		},
 		"annotations": []
 	}
