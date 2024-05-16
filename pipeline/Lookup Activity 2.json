@@ -1,0 +1,60 @@
+{
+	"name": "Lookup Activity 2",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup Activity",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select * from user_info;",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "users_sql_table",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Filter Activity",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "Lookup Activity",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Activity').output.value",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(item().country,'United States')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "Data Movement Activities/LookUp"
+		},
+		"annotations": []
+	}
+}
