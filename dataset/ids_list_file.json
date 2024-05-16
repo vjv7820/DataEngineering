@@ -1,0 +1,28 @@
+{
+	"name": "ids_list_file",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "input_source_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "ids_list.txt",
+				"folderPath": "user-profiles/raw",
+				"fileSystem": "azuredf"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"type": "String"
+			}
+		]
+	}
+}
