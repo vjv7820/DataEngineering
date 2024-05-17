@@ -1,0 +1,81 @@
+{
+	"name": "Foreach 1",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.listofcities",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Append variable1",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "final_list",
+								"value": {
+									"value": "@concat('London',item())",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "temp",
+					"value": {
+						"value": "@variables('final_list')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"listofcities": {
+				"type": "array",
+				"defaultValue": [
+					"New Delhi",
+					"Bangalore"
+				]
+			}
+		},
+		"variables": {
+			"temp": {
+				"type": "Array"
+			},
+			"final_list": {
+				"type": "Array",
+				"defaultValue": []
+			}
+		},
+		"folder": {
+			"name": "Control Flow Activities/For Each"
+		},
+		"annotations": []
+	}
+}
