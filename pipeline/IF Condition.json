@@ -1,0 +1,73 @@
+{
+	"name": "IF Condition",
+	"properties": {
+		"activities": [
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@contains(pipeline().parameters.listofcities, pipeline().parameters.citytosearch)",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "ifcityexists",
+								"value": "False"
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "ifcityexists",
+								"value": "True"
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"listofcities": {
+				"type": "array",
+				"defaultValue": [
+					"New York",
+					"Washington"
+				]
+			},
+			"citytosearch": {
+				"type": "string",
+				"defaultValue": "Goa"
+			}
+		},
+		"variables": {
+			"ifcityexists": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Control Flow Activities"
+		},
+		"annotations": []
+	}
+}
