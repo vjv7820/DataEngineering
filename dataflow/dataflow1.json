@@ -1,0 +1,39 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "azure_sql_ls",
+						"type": "LinkedServiceReference"
+					},
+					"name": "employeedataset"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          EmployeeID as integer,",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          Email as string,",
+				"          PhoneNumber as string,",
+				"          HireDate as date,",
+				"          DepartmentID as integer,",
+				"          Salary as decimal(10,2),",
+				"          MANAGERID as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: 'dbo',",
+				"     tableName: 'Employees',",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> employeedataset"
+			]
+		}
+	}
+}
