@@ -1,0 +1,32 @@
+{
+	"name": "sqlDatabaseDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azure_sql_ls",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"schemaname": {
+				"type": "string",
+				"defaultValue": "abc"
+			},
+			"tablename": {
+				"type": "string",
+				"defaultValue": "abc"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().schemaname",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			}
+		}
+	}
+}

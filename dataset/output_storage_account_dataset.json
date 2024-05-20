@@ -1,0 +1,40 @@
+{
+	"name": "output_storage_account_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "input_source_ls",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"schemaname": {
+				"type": "string",
+				"defaultValue": "abc"
+			},
+			"tablename": {
+				"type": "string",
+				"defaultValue": "abc"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(dataset().tablename, '.csv')",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat(concat(concat('user-profiles/raw/',dataset().schemaname),'/'),dataset().tablename)",
+					"type": "Expression"
+				},
+				"fileSystem": "azuredf"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
