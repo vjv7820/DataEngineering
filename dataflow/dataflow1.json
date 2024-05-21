@@ -10,10 +10,35 @@
 						"type": "LinkedServiceReference"
 					},
 					"name": "employeedataset"
+				},
+				{
+					"linkedService": {
+						"referenceName": "azure_sql_ls",
+						"type": "LinkedServiceReference"
+					},
+					"name": "departmentdataset"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "users_dataset",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "aggregate1"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          EmployeeID as integer,",
@@ -32,7 +57,57 @@
 				"     store: 'sqlserver',",
 				"     schemaName: 'dbo',",
 				"     tableName: 'Employees',",
-				"     isolationLevel: 'READ_UNCOMMITTED') ~> employeedataset"
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> employeedataset",
+				"source(output(",
+				"          DepartmentID as integer,",
+				"          DepartmentName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: 'dbo',",
+				"     tableName: 'Departments',",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> departmentdataset",
+				"employeedataset, departmentdataset join(employeedataset@DepartmentID == departmentdataset@DepartmentID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 select(mapColumn(",
+				"          EmployeeID,",
+				"          FirstName,",
+				"          LastName,",
+				"          Salary,",
+				"          DepartmentID = departmentdataset@DepartmentID,",
+				"          DepartmentName",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"join1 aggregate(groupBy(DepartmentName),",
+				"     Salary = sum(Salary),",
+				"     partitionBy('hash', 1)) ~> aggregate1",
+				"aggregate1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as string,",
+				"          name as string,",
+				"          dob as string,",
+				"          email as string,",
+				"          gender as string,",
+				"          country as string,",
+				"          region as string,",
+				"          city as string,",
+				"          asset as string,",
+				"          marital_status as string",
+				"     ),",
+				"     partitionFileNames:['aggregation_result.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
